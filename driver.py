@@ -3,6 +3,7 @@ from selenium import webdriver
 import time
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
 
 os.environ['PATH'] += r'/Users/jacobyoo/Desktop/PythonProjects/chromedriver'
 
@@ -18,6 +19,7 @@ class Driver(webdriver.Chrome):
         self.bakers = []
         for i in range(20):
             self.bakers.append(self.find_element(By.ID, f"product{i}"))
+        self.mute()
     
     def check_upgrade(self):
         try:
@@ -56,3 +58,9 @@ class Driver(webdriver.Chrome):
                 self.find_element(By.ID, "textareaPrompt").send_keys(content + "\n")
                 self.find_element(By.XPATH, '//*[@id="prefsButton"]/div').click()
         
+    def mute(self):
+        self.find_element(By.XPATH, '//*[@id="prefsButton"]/div').click()
+        slider = self.find_element(By.ID, 'volumeSlider')
+        ActionChains(self).click_and_hold(slider).move_by_offset(-200, 0).release().perform()
+        time.sleep(5)
+        self.find_element(By.XPATH, '//*[@id="prefsButton"]/div').click()
