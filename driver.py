@@ -19,6 +19,7 @@ class Driver(webdriver.Chrome):
         self.bakers = []
         for i in range(20):
             self.bakers.append(self.find_element(By.ID, f"product{i}"))
+        self.bakers.reverse()
         self.mute()
     
     def check_upgrade(self):
